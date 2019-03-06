@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- 4.2.1
+sudo: false
+before_install:
+- chmod 755 ./deploy.sh
+install: npm install
+script: npm run pug:compile
+deploy:
+  provider: script
+  script: ./deploy.sh
+  skip_cleanup: true
