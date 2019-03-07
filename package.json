@@ -5,15 +5,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pug:compile": "pug index.pug --out public",
     "pug:watch": "pug index.pug watch --out public",
-    "server": "live-server --port=8080 ./public"
+    "server": "live-server --port=8080 ./public",
+    "start": "concurrently \"npm:pug:watch\" \"npm:server\""
   },
-  "author": "",
+  "author": "Volodymyr Osmak",
   "license": "MIT",
   "dependencies": {
     "pug": "2.0.3",
-    "pug-cli": "^1.0.0-alpha6"
+    "pug-cli": "1.0.0-alpha6"
   },
   "devDependencies": {
-    "live-server": "^1.2.1"
+    "concurrently": "4.1.0",
+    "live-server": "1.2.1"
   }
 }
