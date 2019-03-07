@@ -4,7 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pug:compile": "pug index.pug --out public",
-    "pug:watch": "pug index.pug watch --out public",
+    "pug:watch": "pug index.pug --watch --out public",
     "server": "live-server --port=8080 ./public",
     "start": "concurrently \"npm:pug:watch\" \"npm:server\""
   },
