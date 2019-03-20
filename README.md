@@ -1,4 +1,4 @@
-# Presentation about JavaScript modules using Reveal.JS
+# Presentation about Docker using Reveal.JS
 [![Build Status](https://travis-ci.org/DarkXaHTeP/DockerITShare.Presentation.svg?branch=master)](https://travis-ci.org/DarkXaHTeP/DockerITShare.Presentation)
 
 It is built and deployed to GitHub Pages with the help of Travis CI.
