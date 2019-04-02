@@ -1,3 +1,21 @@
-.colored--red {
-    color: red;
+.reveal section img.no-styles {
+    background: none;
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.docker-logo {
+    height: 10vh;
+    vertical-align: text-bottom;
+}
+
+.epam-logo {
+    background-color: white !important;
+    height: 10vh;
+}
+
+.indian-img {
+    height: 30vh;
 }
