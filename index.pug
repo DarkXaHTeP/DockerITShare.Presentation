@@ -17,34 +17,41 @@ html(lang="en")
                         img.no-styles.docker-logo(src="img/docker_logo.png")
                         | Docker
                     h2 is still your best friend
+                    aside.notes Всем привет, сегодня мы собрались для того чтобы пообщаться и может даже похоливарить на тему докера; Меня зовут Владимир; Давайте начнем с очевидных вопросов. Кто игрался с докером? А кто использовал в продакшн? Кто вообще не слышал?
                 section
                     section
                         h3 About me
                         img.epam-logo.fragment.fade-in(src="img/EPAM_logo.png")
                         ul
-                            li.fragment.fade-right 4 years in EPAM
+                            li.fragment.fade-right 4+ years in EPAM
                             li.fragment.fade-right Lead Software Engineer
-                            li.fragment.fade-right Fullstack Developer
+                            li.fragment.fade-right Fullstack Web Developer
                             li.fragment.fade-right .NET C#/F# and JavaScript/TypeScript
                             li.fragment.fade-right Currently TeamLead on JETC-DEV project
+                        aside.notes Прежде чем начать, расскажу немного о себе; Сначала про работу; 4+ года и считаю что здесь можно расти и развивать и дальше
                     section
                         img.indian-img(src="img/indian_scientist.png")
-                        li.fragment.fade-right Love GitHub
-                        li.fragment.fade-right Develop and contribute to Open Source
-                        li.fragment.fade-right One of projects has 60 000+ downloads
-                        li.fragment.fade-right Try to keep up with trends
-                        li.fragment.fade-right Don't like serious presentations
+                        ul
+                            li.fragment.fade-right Love GitHub
+                            li.fragment.fade-right Develop and contribute to Open Source
+                            li.fragment.fade-right One of projects has 60 000+ downloads
+                            li.fragment.fade-right Try to keep up with trends
+                            li.fragment.fade-right Don't like serious presentations
+                        aside.notes Если же говорить про свободное время, то
+
                 section
                     section
                         p
                             img(src="img/how_i_met.png")
                         ul
-                            li.fragment.fade-right First impressions in 2015
+                            li.fragment.fade-right First impressions in late 2015
                             li.fragment.fade-right Usage on project since November 2016
+                        aside.notes В нескольких словах затрону тему того как я познакомился с Докером
                     section
-                        h3 Everyone could do the same!
+                        h3 You could do the same!
                         p
                             img(src="img/surprised.gif")
+                        aside.notes По ходу презентации вы сможете понять что вы так же можете начать его использовать даже если проект этого не предусматривает
                 section
                     section
                         h3 Agenda
@@ -52,6 +59,7 @@ html(lang="en")
                             li What's Docker?
                             li Containers
                             li Why do we need it?
+                            li What about Windows?
                             li Demo
                                 ul
                                     li Docker Ecosystem
@@ -67,7 +75,6 @@ html(lang="en")
                                     li docker-compose CLI
                             li Continuous Integration
                             li Demo: CI on JETC-DEV
-                            li What about Windows?
                     section
                         h3 Agenda
                         ul
@@ -78,6 +85,52 @@ html(lang="en")
                             li Alerts in Telegram...?!
                             li Elastic Search/Kibana
                             li Why and what to do next
+                section
+                    p Docker is a set of tools designed to make it easier to create, deploy, and run applications by using containers
+                    p.fragment.fade-in
+                        img(src="img/hmmm.gif" style="display:block; margin: 0 auto; height: 30vh")
+                    ul
+                        li.fragment.fade-right Containers existed before Docker (LCX)
+                        li.fragment.fade-right Docker CLI, Docker Compose, Docker Hub, Docker Swarm
+                    aside.notes Сначала рассмотрим определение; Вызывает недоумение, не так ли?; Многие путают понятия докера и контейнеров; ... Докер же в свою очередь сделал их удобными благодаря набору утилит
+                section
+                    section
+                        h3 Containers
+                        p
+                            img(src="img/vm-vs-container.jpg")
+                        aside.notes Похожи тем что обеспечивают изоляцию приложений друг от друга; Переиспользуют ядро; Меньше весят; Меньше ресурсов быстрее старт
+                    section
+                        h3 How it works?
+                        ul
+                            li Containers rely on Linux features
+                            li.fragment.fade-right Thank you, Linus Torvalds
+                        p
+                            img.fragment.fade-in(src="img/linus_not_serious.jpg")
+                        aside.notes Как же это происходит? Если вкратце, то все стало возможным из-за фич ОС линукс, которые вкупе и дают нам контейнеры. За которые можно благодарить создателя ядра - Линуса
+                    section
+                        h3 What features?
+                        ul
+                            li.fragment.fade-right Process isolation (namespaces)
+                            li.fragment.fade-right Resource limitation (cgroups)
+                            li.fragment.fade-right Virtual Networking
+                            li.fragment.fade-right Image Layers
+                            li.fragment.fade-right Copy on write filesystem
+                        
+                        
+                section
+                    h3 Why?
+                    img.fragment.fade-in(src="img/why.jpg" style="display:block; margin: 0 auto; height: 20vh")
+                    ul
+                        li.fragment.fade-right Ease of use because of abstraction
+                        li.fragment.fade-right Isolation
+                        li.fragment.fade-right Infrastructure as a code
+                        li.fragment.fade-right Same local, QA and PROD envs
+                    aside.notes Зачем нам нужен еще один набор тулов, учить новую терминологию и тд?
+                section
+                    h3 What about Windows?
+                    p.fragment.fade-in
+                        img(src="img/linus_fuck.gif")
+
         script(src="lib/js/head.min.js")
         script(src="js/reveal.js")
         script(src="js/main.js")
