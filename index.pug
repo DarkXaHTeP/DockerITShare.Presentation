@@ -62,9 +62,9 @@ html(lang="en")
                             li What about Windows?
                             li Demo
                                 ul
-                                    li Docker Ecosystem
                                     li Dockerfile
                                     li Build and run a container
+                                    li Docker Ecosystem
                     section
                         h3 Agenda
                         ul
@@ -115,8 +115,6 @@ html(lang="en")
                             li.fragment.fade-right Virtual Networking
                             li.fragment.fade-right Image Layers
                             li.fragment.fade-right Copy on write filesystem
-                        
-                        
                 section
                     h3 Why?
                     img.fragment.fade-in(src="img/why.jpg" style="display:block; margin: 0 auto; height: 20vh")
@@ -127,9 +125,40 @@ html(lang="en")
                         li.fragment.fade-right Same local, QA and PROD envs
                     aside.notes Зачем нам нужен еще один набор тулов, учить новую терминологию и тд?
                 section
-                    h3 What about Windows?
-                    p.fragment.fade-in
-                        img(src="img/linus_fuck.gif")
+                    section
+                        h3 What about Windows?
+                        p.fragment.fade-in
+                            img(src="img/linus_fuck.gif")
+                    section
+                        h3 Actually, it's not that bad
+                        ul
+                            li.fragment.fade-right  Windows Server 2016 and Windows 10
+                            li.fragment.fade-right  Windows Nano and Core base images
+                            li.fragment.fade-right  Run only on Windows
+                            li.fragment.fade-right  Huge images
+                            li.fragment.fade-right  4+ GB of memory used
+                            li.fragment.fade-right  Long start time
+                            li.fragment.fade-right Breaking changes and incompatibility between releases
+                section
+                    section
+                        h3 Let's imagine that you've got a project with
+                        ul
+                            li SQL Server
+                            li Apache Kafka (depends on Zookeeper)
+                            li Some UI for Kafka
+                            li Hashicorp Consul
+                            li Hashicorp Vault
+                            li Vault UI
+                            li Redis
+                            li 10+ developers
+                    section
+                        h3 [Icons Placeholder]
+                    section
+                        h4 One docker-compose.yml to rule them all
+                        p  
+                            img(src="img/one_ring_to_rule.jpg")
+
+                        
 
         script(src="lib/js/head.min.js")
         script(src="js/reveal.js")
