@@ -117,6 +117,10 @@ html(lang="en")
                             li.fragment.fade-right Image Layers
                             li.fragment.fade-right Copy on write filesystem
                 section
+                    h2 DEMO
+                    p
+                        img(src="img/dancing_crab.webp")
+                section
                     h3 Why?
                     img.fragment.fade-in(src="img/why.jpg" style="display:block; margin: 0 auto; height: 20vh")
                     ul
@@ -161,7 +165,67 @@ html(lang="en")
                             img(src="img/one_ring_to_rule.jpg")
                         pre.fragment.fade-right
                             code.bash docker-compose up
+                section
+                    section
+                        h3 Issues on CI
+                        ul
+                            li.fragment.fade-right Dependencies
+                            li.fragment.fade-right Versions
+                            li.fragment.fade-right DevOps
+                        pre.fragment.fade-right
+                            code.bash
+                                | ws=`pwd`
+                                | docker run \
+                                |   -i --rm \
+                                |   -v ./TestProject.UI:/data \
+                                |   node:10.15.3-alpine \
+                                |   sh -c "cd /data && npm install && npm run lint && ./node_modules/.bin/ng build --prod --no-progress --delete-output-path false"
+                section
+                    h2 DEMO
+                    p
+                        img(src="img/penguin.gif")
 
+                section
+                    section
+                        h3 Want to have cool pet projects?
+                        p
+                            img(src="img/i-wanna-try.gif")
+                    section
+                        h3 Source Control and CI
+                        p
+                            img(src="img/github.png" style="float: left; height: 25vh").fragment.fade-in
+                            img(src="img/travis.jpg" style="height: 25vh").fragment.fade-in
+                    section
+                        h3 .travis.yml
+                        pre
+                            code.yaml
+                                | language: node_js
+                                | node_js:
+                                | - 10.15.3
+                                | sudo: false
+                                | before_install:
+                                | - chmod 755 ./deploy.sh
+                                | install: npm install
+                                | script: npm run pug:compile
+                                | deploy:
+                                |   provider: script
+                                |   script: ./deploy.sh
+                                |   skip_cleanup: true
+                    section
+                        h3 .travis.yml with Docker
+                        pre
+                            code.yaml
+                                | language: bash
+                                | services:
+                                | - docker
+                                | script:
+                                | - docker build -t darkxahtep/docker-itshare-sampleapp:$TRAVIS_BUILD_NUMBER .
+                                | after_success:
+                                | - if [ "$TRAVIS_BRANCH" == "master" ]; then
+                                |     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+                                |     docker push darkxahtep/docker-itshare-sampleapp;
+                                |     fi
+    
         script(src="lib/js/head.min.js")
         script(src="js/reveal.js")
         script(src="js/main.js")
