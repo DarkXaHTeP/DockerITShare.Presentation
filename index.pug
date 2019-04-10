@@ -58,23 +58,23 @@ html(lang="en")
                         ul
                             li What's Docker?
                             li Containers
-                            li Why do we need it?
-                            li What about Windows?
                             li Demo
                                 ul
                                     li Dockerfile
                                     li Build and run a container
                                     li Docker Ecosystem
+                            li Why do we need it?
+                            li What about Windows?
                     section
                         h3 Agenda
                         ul
                             li Local Environment
+                            li Continuous Integration
                             li Demo
                                 ul
                                     li docker-compose.yml
                                     li docker-compose CLI
-                            li Continuous Integration
-                            li Demo: CI on JETC-DEV
+                                    li CI on JETC-DEV
                     section
                         h3 Agenda
                         ul
@@ -84,6 +84,7 @@ html(lang="en")
                             li HTTPS?
                             li Alerts in Telegram...?!
                             li Elastic Search/Kibana
+                            li Demo
                             li Why and what to do next
                 section
                     p Docker is a set of tools designed to make it easier to create, deploy, and run applications by using containers
@@ -143,22 +144,23 @@ html(lang="en")
                     section
                         h3 Let's imagine that you've got a project with
                         ul
-                            li SQL Server
-                            li Apache Kafka (depends on Zookeeper)
-                            li Some UI for Kafka
-                            li Hashicorp Consul
-                            li Hashicorp Vault
-                            li Vault UI
-                            li Redis
-                            li 10+ developers
+                            li.fragment.fade-right SQL Server
+                            li.fragment.fade-right Apache Kafka
+                            li.fragment.fade-right Zookeeper
+                            li.fragment.fade-right Kafka Lenses (UI for Kafka)
+                            li.fragment.fade-right Hashicorp Consul
+                            li.fragment.fade-right Hashicorp Vault
+                            li.fragment.fade-right Hashicorp Vault UI
+                            li.fragment.fade-right Redis
+                            li.fragment.fade-right 10+ developers
                     section
-                        h3 [Icons Placeholder]
+                        img(src="img/mind-blow.gif")
                     section
                         h4 One docker-compose.yml to rule them all
                         p  
                             img(src="img/one_ring_to_rule.jpg")
-
-                        
+                        pre.fragment.fade-right
+                            code.bash docker-compose up
 
         script(src="lib/js/head.min.js")
         script(src="js/reveal.js")
