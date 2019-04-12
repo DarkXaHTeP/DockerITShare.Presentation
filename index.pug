@@ -33,6 +33,8 @@ html(lang="en")
                         img.indian-img(src="img/indian_scientist.png")
                         ul
                             li.fragment.fade-right Love GitHub
+                            li.fragment.fade-right
+                                a(href="https://github.com/DarkXaHTeP") https://github.com/DarkXaHTeP
                             li.fragment.fade-right Develop and contribute to Open Source
                             li.fragment.fade-right One of projects has 60 000+ downloads
                             li.fragment.fade-right Try to keep up with trends
@@ -41,8 +43,9 @@ html(lang="en")
 
                 section
                     section
+                        h3 How I learned Docker
                         p
-                            img(src="img/how_i_met.png")
+                            img(src="img/learning.gif")
                         ul
                             li.fragment.fade-right First impressions in late 2015
                             li.fragment.fade-right Usage on project since November 2016
@@ -50,7 +53,7 @@ html(lang="en")
                     section
                         h3 You could do the same!
                         p
-                            img(src="img/surprised.gif")
+                            img(src="img/welcome.gif")
                         aside.notes По ходу презентации вы сможете понять что вы так же можете начать его использовать даже если проект этого не предусматривает
                 section
                     section
@@ -58,9 +61,9 @@ html(lang="en")
                         ul
                             li What's Docker?
                             li Containers
+                            li Dockerfile
                             li Demo
                                 ul
-                                    li Dockerfile
                                     li Build and run a container
                                     li Docker Ecosystem
                             li Why do we need it?
@@ -69,27 +72,28 @@ html(lang="en")
                         h3 Agenda
                         ul
                             li Local Environment
+                            li docker-compose.yml
                             li Continuous Integration
                             li Demo
                                 ul
-                                    li docker-compose.yml
-                                    li docker-compose CLI
+                                    li docker-compose
                                     li CI on JETC-DEV
                     section
                         h3 Agenda
                         ul
                             li Pet Projects
-                            li Github + Travis CI
-                            li Azure $50 problem
-                            li HTTPS?
-                            li Alerts in Telegram...?!
-                            li Elastic Search/Kibana
-                            li Demo
-                            li Why and what to do next
+                                ul
+                                    li Source Control + CI
+                                    li Hosting
+                                    li Free Domain and HTTPS
+                                    li ELK stack
+                                    li Alerts in ... Telegram?!
+                                    li Demo
+                                    li Why and what to try next
                 section
                     p Docker is a set of tools designed to make it easier to create, deploy, and run applications by using containers
                     p.fragment.fade-in
-                        img(src="img/hmmm.gif" style="display:block; margin: 0 auto; height: 30vh")
+                        img(src="img/containers.png" style="display:block; margin: 0 auto; height: 30vh")
                     ul
                         li.fragment.fade-right Containers existed before Docker (LCX)
                         li.fragment.fade-right Docker CLI, Docker Compose, Docker Hub, Docker Swarm
@@ -114,8 +118,42 @@ html(lang="en")
                             li.fragment.fade-right Process isolation (namespaces)
                             li.fragment.fade-right Resource limitation (cgroups)
                             li.fragment.fade-right Virtual Networking
-                            li.fragment.fade-right Image Layers
-                            li.fragment.fade-right Copy on write filesystem
+                            li.fragment.fade-right Layered copy-on-write filesystem
+                section
+                    section
+                        h3 Dockerfile
+                        pre
+                            code.docker
+                                | FROM node:10.15.3-stretch
+                                |
+                                | WORKDIR /app
+                                |
+                                | COPY package*.json ./
+                                | RUN npm install
+                                |
+                                | COPY . .
+                                |
+                                | EXPOSE 8080
+                                | CMD [ "npm", "start" ]
+                    section
+                        h3 .NET Core Dockerfile
+                        pre
+                            code.docker
+                                | # build backend
+                                | FROM mcr.microsoft.com/dotnet/core/sdk:2.2.105-alpine3.9 AS build-env
+                                | WORKDIR /app
+                                |
+                                | COPY . ./
+                                |
+                                | RUN dotnet publish SampleApp.Web.csproj -c Release -r linux-musl-x64 -o out
+                                |
+                                | # build runtime image
+                                | FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2.3-alpine3.9
+                                | WORKDIR /app
+                                | COPY --from=build-env /app/out ./
+                                | ENV ASPNETCORE_URLS http://0.0.0.0:5000
+                                | EXPOSE 5000
+                                | ENTRYPOINT ["./SampleApp.Web"]
                 section
                     h2 DEMO
                     p
@@ -135,7 +173,7 @@ html(lang="en")
                         p.fragment.fade-in
                             img(src="img/linus_fuck.gif")
                     section
-                        h3 Actually, it's not that bad
+                        h3 Actually, it's not that bad, but...
                         ul
                             li.fragment.fade-right  Windows Server 2016 and Windows 10
                             li.fragment.fade-right  Windows Nano and Core base images
@@ -165,31 +203,56 @@ html(lang="en")
                             img(src="img/one_ring_to_rule.jpg")
                         pre.fragment.fade-right
                             code.bash docker-compose up
+                    section
+                        h3 docker-compose.yml
+                        pre
+                            code.yml
+                                | version: '2'
+                                | services:
+                                |     sqlserver:
+                                |         image: mcr.microsoft.com/mssql/server:2017-CU13-ubuntu
+                                |         container_name: docker-itshare-sqlserver
+                                |         ports:
+                                |         - 1433:1433
+                                |         environment:
+                                |             ACCEPT_EULA: Y
+                                |             SA_PASSWORD: Qwerty123
+                                |             MSSQL_PID: Developer
+                                |         volumes:
+                                |         - sqldata:/var/opt/mssql
+                                |    redis:
+                                |        image: redis:5.0.4-alpine3.9
+                                |        container_name: docker-itshare-redis
+                                |        ports:
+                                |        - 6379:6379
+                                | volumes:
+                                |     sqldata:
                 section
                     section
-                        h3 Issues on CI
+                        h3 Continuous Integration
                         ul
                             li.fragment.fade-right Dependencies
                             li.fragment.fade-right Versions
-                            li.fragment.fade-right DevOps
+                            li.fragment.fade-right DevOps responsibilities?
                         pre.fragment.fade-right
                             code.bash
-                                | ws=`pwd`
-                                | docker run \
-                                |   -i --rm \
-                                |   -v ./TestProject.UI:/data \
+                                | docker run -i --rm -v ./TestProject.UI:/data \
                                 |   node:10.15.3-alpine \
                                 |   sh -c "cd /data && npm install && npm run lint && ./node_modules/.bin/ng build --prod --no-progress --delete-output-path false"
+                        pre.fragment.fade-right
+                            code.bash
+                                | docker run -i --rm -v ./TestProject.UI:/data
+                                |  mcr.microsoft.com/dotnet/core/sdk:2.2.105-alpine3.9
+                                |  sh -c "cd /data && dotnet restore && dotnet publish -c Release --self-contained -r win10-x64 -o out"
                 section
                     h2 DEMO
                     p
                         img(src="img/penguin.gif")
-
                 section
-                    section
-                        h3 Want to have cool pet projects?
-                        p
-                            img(src="img/i-wanna-try.gif")
+                    h3 Want to have cool pet projects?
+                    p
+                        img(src="img/i-wanna-try.gif")
+                section
                     section
                         h3 Source Control and CI
                         p
@@ -202,7 +265,6 @@ html(lang="en")
                                 | language: node_js
                                 | node_js:
                                 | - 10.15.3
-                                | sudo: false
                                 | before_install:
                                 | - chmod 755 ./deploy.sh
                                 | install: npm install
@@ -225,7 +287,54 @@ html(lang="en")
                                 |     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
                                 |     docker push darkxahtep/docker-itshare-sampleapp;
                                 |     fi
-    
+                section
+                    section
+                        h3 Hosting
+                        p
+                            img(src="img/microsoft-azure.png" style="float: left; height: 25vh; background:white").fragment.fade-in
+                            img(src="img/msdn-logo.png" style="height: 25vh").fragment.fade-in
+                    section
+                        h3 Main Problem
+                        p.fragment.fade-right There is a 50$ Limit per month
+                        p.fragment.fade-in
+                            img(src="img/money.gif")
+                    section
+                        h3 Single VM to run it all
+                        ul
+                            li.fragment.fade-right Cheapest region (e.g. EastUS2)
+                            li.fragment.fade-right B2s tier with SSD (2 vCPU, 4GB RAM)
+                            li.fragment.fade-right Core OS Linux (Docker preinstalled)
+                            li.fragment.fade-right ~41$ per month
+                    section
+                        h3 Time to deploy containers to cloud
+                        p
+                            img(src="img/containers_to_cloud.jpeg")
+                section
+                    h3 Free Domain and HTTPS
+                    ul
+                        li *.pp.ua through https://nic.ua
+                        li *.tk and *.ml through https://dot.tk
+                        li Let's Encrypt https://letsencrypt.org/
+                section
+                    h3 What else?
+                    p
+                        img(src="img/elk.webp" style="float: left; height: 33vh; background:white").fragment.fade-in
+                        img(src="img/telegram.png" style="height: 33vh; background:white").fragment.fade-in
+                section
+                    h3 Demo
+                    p
+                        img(src="img/demo_simpsons.gif")
+                section
+                    h3 Things to try next
+                    ul
+                        li Switch to Kubernetes?
+                        li Use Splunk instead of ELK?
+                        li 2-3 smaller VMs and load balancing?
+                        li Create Raspberry PI cluster
+                section
+                    h3 Questions?
+                    p  
+                        img(src="img/question.gif")
         script(src="lib/js/head.min.js")
         script(src="js/reveal.js")
         script(src="js/main.js")
