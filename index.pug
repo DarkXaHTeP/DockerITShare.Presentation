@@ -87,12 +87,11 @@ html(lang="en")
                                     li Hosting
                                     li Free Domain and HTTPS
                                     li ELK stack
-                                    li Alerts in ... Telegram?!
                                     li Demo
                                     li Why and what to try next
                 section
                     p Docker is a set of tools designed to make it easier to create, deploy, and run applications by using containers
-                    p.fragment.fade-in
+                    p
                         img(src="img/containers.png" style="display:block; margin: 0 auto; height: 30vh")
                     ul
                         li.fragment.fade-right Containers existed before Docker (LCX)
@@ -107,7 +106,7 @@ html(lang="en")
                     section
                         h3 How it works?
                         ul
-                            li Containers rely on Linux features
+                            li Containers rely on Linux kernel features
                             li.fragment.fade-right Thank you, Linus Torvalds
                         p
                             img.fragment.fade-in(src="img/linus_not_serious.jpg")
@@ -227,6 +226,9 @@ html(lang="en")
                                 |        - 6379:6379
                                 | volumes:
                                 |     sqldata:
+                    section
+                        p
+                            img(src="img/dev_env.jpg")
                 section
                     section
                         h3 Continuous Integration
@@ -318,8 +320,7 @@ html(lang="en")
                 section
                     h3 What else?
                     p
-                        img(src="img/elk.webp" style="float: left; height: 33vh; background:white").fragment.fade-in
-                        img(src="img/telegram.png" style="height: 33vh; background:white").fragment.fade-in
+                        img(src="img/elk.webp" style="background:white").fragment.fade-in
                 section
                     h3 Demo
                     p
@@ -327,9 +328,10 @@ html(lang="en")
                 section
                     h3 Things to try next
                     ul
-                        li Switch to Kubernetes?
-                        li Use Splunk instead of ELK?
-                        li 2-3 smaller VMs and load balancing?
+                        li Notifications to Telegram using ElastAlert
+                        li Switch to Kubernetes
+                        li Use Splunk instead of ELK
+                        li 2-3 smaller VMs and load balancing
                         li Create Raspberry PI cluster
                 section
                     h3 Questions?
