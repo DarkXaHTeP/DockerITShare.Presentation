@@ -141,10 +141,8 @@ html(lang="en")
                                 | # build backend
                                 | FROM mcr.microsoft.com/dotnet/core/sdk:2.2.105-alpine3.9 AS build-env
                                 | WORKDIR /app
-                                |
                                 | COPY . ./
-                                |
-                                | RUN dotnet publish SampleApp.Web.csproj -c Release -r linux-musl-x64 -o out
+                                | RUN dotnet publish App.csproj -c Release -r linux-musl-x64 -o out
                                 |
                                 | # build runtime image
                                 | FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2.3-alpine3.9
@@ -159,7 +157,7 @@ html(lang="en")
                         img(src="img/dancing_crab.webp")
                 section
                     h3 Why?
-                    img.fragment.fade-in(src="img/why.jpg" style="display:block; margin: 0 auto; height: 20vh")
+                    img(src="img/why.jpg" style="display:block; margin: 0 auto; height: 20vh")
                     ul
                         li.fragment.fade-right Ease of use because of abstraction
                         li.fragment.fade-right Isolation
@@ -283,7 +281,7 @@ html(lang="en")
                                 | services:
                                 | - docker
                                 | script:
-                                | - docker build -t darkxahtep/docker-itshare-sampleapp:$TRAVIS_BUILD_NUMBER .
+                                | - docker build -t darkxahtep/sampleapp:$TRAVIS_BUILD_NUMBER .
                                 | after_success:
                                 | - if [ "$TRAVIS_BRANCH" == "master" ]; then
                                 |     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";

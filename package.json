@@ -5,7 +5,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pug:compile": "pug index.pug --out public",
     "pug:watch": "pug index.pug --watch --out public",
-    "server": "live-server --port=8080 ./public",
+    "server": "live-server --host=localhost --port=8000 ./public",
     "start": "concurrently \"npm:pug:watch\" \"npm:server\""
   },
   "author": "Volodymyr Osmak",
