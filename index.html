@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><title>Docker</title><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><link rel="stylesheet" href="css/zenburn.css"><link rel="stylesheet" href="css/reveal.css"><link rel="stylesheet" href="css/theme/league.css"><link rel="stylesheet" href="css/main.css"></head><body><div class="reveal"><div class="slides"><section><h2>No Microservices?</h2><h1><img class="no-styles docker-logo" src="img/docker_logo.png">Docker</h1><h2>is still your best friend</h2><aside class="notes">Всем привет, сегодня мы собрались для того чтобы пообщаться и может даже похоливарить на тему докера; Меня зовут Владимир; Давайте начнем с очевидных вопросов. Кто игрался с докером? А кто использовал в продакшн? Кто вообще не слышал?</aside></section><section><section><h3>About me</h3><img class="epam-logo fragment fade-in" src="img/EPAM_logo.png"><ul><li class="fragment fade-right">4+ years in EPAM</li><li class="fragment fade-right">Lead Software Engineer</li><li class="fragment fade-right">Fullstack Web Developer</li><li class="fragment fade-right">.NET C#/F# and JavaScript/TypeScript</li><li class="fragment fade-right">Currently TeamLead on JETC-DEV project</li></ul><aside class="notes">Прежде чем начать, расскажу немного о себе; Сначала про работу; 4+ года и считаю что здесь можно расти и развивать и дальше</aside></section><section><img class="indian-img" src="img/indian_scientist.png"><ul><li class="fragment fade-right">Love GitHub</li><li class="fragment fade-right"><a href="https://github.com/DarkXaHTeP">https://github.com/DarkXaHTeP</a></li><li class="fragment fade-right">Develop and contribute to Open Source</li><li class="fragment fade-right">One of projects has 60 000+ downloads</li><li class="fragment fade-right">Try to keep up with trends</li><li class="fragment fade-right">Don't like serious presentations</li></ul><aside class="notes">Если же говорить про свободное время, то</aside></section></section><section><section><h3>How I learned Docker</h3><p><img src="img/learning.gif"></p><ul><li class="fragment fade-right">First impressions in late 2015</li><li class="fragment fade-right">Usage on project since November 2016</li></ul><aside class="notes">В нескольких словах затрону тему того как я познакомился с Докером</aside></section><section><h3>You could do the same!</h3><p><img src="img/welcome.gif"></p><aside class="notes">По ходу презентации вы сможете понять что вы так же можете начать его использовать даже если проект этого не предусматривает</aside></section></section><section><section><h3>Agenda</h3><ul><li>What's Docker?</li><li>Containers</li><li>Dockerfile</li><li>Demo<ul><li>Build and run a container</li><li>Docker Ecosystem</li></ul></li><li>Why do we need it?</li><li>What about Windows?</li></ul></section><section><h3>Agenda</h3><ul><li>Local Environment</li><li>docker-compose.yml</li><li>Continuous Integration</li><li>Demo<ul><li>docker-compose</li><li>CI on JETC-DEV</li></ul></li></ul></section><section><h3>Agenda</h3><ul><li>Pet Projects<ul><li>Source Control + CI</li><li>Hosting</li><li>Free Domain and HTTPS</li><li>ELK stack</li><li>Demo</li><li>Why and what to try next</li></ul></li></ul></section></section><section><p>Docker is a set of tools designed to make it easier to create, deploy, and run applications by using containers</p><p><img src="img/containers.png" style="display:block; margin: 0 auto; height: 30vh"></p><ul><li class="fragment fade-right">Containers existed before Docker (LCX)</li><li class="fragment fade-right">Docker CLI, Docker Compose, Docker Hub, Docker Swarm</li></ul><aside class="notes">Сначала рассмотрим определение; Вызывает недоумение, не так ли?; Многие путают понятия докера и контейнеров; ... Докер же в свою очередь сделал их удобными благодаря набору утилит</aside></section><section><section><h3>Containers</h3><p><img src="img/vm-vs-container.jpg"></p><aside class="notes">Похожи тем что обеспечивают изоляцию приложений друг от друга; Переиспользуют ядро; Меньше весят; Меньше ресурсов быстрее старт</aside></section><section><h3>How it works?</h3><ul><li>Containers rely on Linux kernel features</li><li class="fragment fade-right">Thank you, Linus Torvalds</li></ul><p><img class="fragment fade-in" src="img/linus_not_serious.jpg"></p><aside class="notes">Как же это происходит? Если вкратце, то все стало возможным из-за фич ОС линукс, которые вкупе и дают нам контейнеры. За которые можно благодарить создателя ядра - Линуса</aside></section><section><h3>What features?</h3><ul><li class="fragment fade-right">Process isolation (namespaces)</li><li class="fragment fade-right">Resource limitation (cgroups)</li><li class="fragment fade-right">Virtual Networking</li><li class="fragment fade-right">Layered copy-on-write filesystem</li></ul></section></section><section><section><h3>Dockerfile</h3><pre><code class="docker">FROM node:10.15.3-stretch
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 8080
+CMD [ "npm", "start" ]</code></pre></section><section><h3>.NET Core Dockerfile</h3><pre><code class="docker"># build backend
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2.105-alpine3.9 AS build-env
+WORKDIR /app
+COPY . ./
+RUN dotnet publish App.csproj -c Release -r linux-musl-x64 -o out
+
+# build runtime image
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2.3-alpine3.9
+WORKDIR /app
+COPY --from=build-env /app/out ./
+ENV ASPNETCORE_URLS http://0.0.0.0:5000
+EXPOSE 5000
+ENTRYPOINT ["./SampleApp.Web"]</code></pre></section></section><section><h2>DEMO</h2><p><img src="img/dancing_crab.webp"></p></section><section><h3>Why?</h3><img src="img/why.jpg" style="display:block; margin: 0 auto; height: 20vh"><ul><li class="fragment fade-right">Ease of use because of abstraction</li><li class="fragment fade-right">Isolation</li><li class="fragment fade-right">Infrastructure as a code</li><li class="fragment fade-right">Same local, QA and PROD envs</li></ul><aside class="notes">Зачем нам нужен еще один набор тулов, учить новую терминологию и тд?</aside></section><section><section><h3>What about Windows?</h3><p class="fragment fade-in"><img src="img/linus_fuck.gif"></p></section><section><h3>Actually, it's not that bad, but...</h3><ul><li class="fragment fade-right"> Windows Server 2016 and Windows 10</li><li class="fragment fade-right"> Windows Nano and Core base images</li><li class="fragment fade-right"> Run only on Windows</li><li class="fragment fade-right"> Huge images</li><li class="fragment fade-right"> 4+ GB of memory used</li><li class="fragment fade-right"> Long start time</li><li class="fragment fade-right">Breaking changes and incompatibility between releases</li></ul></section></section><section><section><h3>Let's imagine that you've got a project with</h3><ul><li class="fragment fade-right">SQL Server</li><li class="fragment fade-right">Apache Kafka</li><li class="fragment fade-right">Zookeeper</li><li class="fragment fade-right">Kafka Lenses (UI for Kafka)</li><li class="fragment fade-right">Hashicorp Consul</li><li class="fragment fade-right">Hashicorp Vault</li><li class="fragment fade-right">Hashicorp Vault UI</li><li class="fragment fade-right">Redis</li><li class="fragment fade-right">10+ developers</li></ul></section><section><img src="img/mind-blow.gif"></section><section><h4>One docker-compose.yml to rule them all</h4><p> <img src="img/one_ring_to_rule.jpg"></p><pre class="fragment fade-right"><code class="bash">docker-compose up</code></pre></section><section><h3>docker-compose.yml</h3><pre><code class="yml">version: '2'
+services:
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server:2017-CU13-ubuntu
+        container_name: docker-itshare-sqlserver
+        ports:
+        - 1433:1433
+        environment:
+            ACCEPT_EULA: Y
+            SA_PASSWORD: Qwerty123
+            MSSQL_PID: Developer
+        volumes:
+        - sqldata:/var/opt/mssql
+   redis:
+       image: redis:5.0.4-alpine3.9
+       container_name: docker-itshare-redis
+       ports:
+       - 6379:6379
+volumes:
+    sqldata:</code></pre></section><section><p><img src="img/dev_env.jpg"></p></section></section><section><section><h3>Continuous Integration</h3><ul><li class="fragment fade-right">Dependencies</li><li class="fragment fade-right">Versions</li><li class="fragment fade-right">DevOps responsibilities?</li></ul><pre class="fragment fade-right"><code class="bash">docker run -i --rm -v ./TestProject.UI:/data \
+  node:10.15.3-alpine \
+  sh -c "cd /data && npm install && npm run lint && ./node_modules/.bin/ng build --prod --no-progress --delete-output-path false"</code></pre><pre class="fragment fade-right"><code class="bash">docker run -i --rm -v ./TestProject.UI:/data
+ mcr.microsoft.com/dotnet/core/sdk:2.2.105-alpine3.9
+ sh -c "cd /data && dotnet restore && dotnet publish -c Release --self-contained -r win10-x64 -o out"</code></pre></section></section><section><h2>DEMO</h2><p><img src="img/penguin.gif"></p></section><section><h3>Want to have cool pet projects?</h3><p><img src="img/i-wanna-try.gif"></p></section><section><section><h3>Source Control and CI</h3><p><img class="fragment fade-in" src="img/github.png" style="float: left; height: 25vh"><img class="fragment fade-in" src="img/travis.jpg" style="height: 25vh"></p></section><section><h3>.travis.yml</h3><pre><code class="yaml">language: node_js
+node_js:
+- 10.15.3
+before_install:
+- chmod 755 ./deploy.sh
+install: npm install
+script: npm run pug:compile
+deploy:
+  provider: script
+  script: ./deploy.sh
+  skip_cleanup: true</code></pre></section><section><h3>.travis.yml with Docker</h3><pre><code class="yaml">language: bash
+services:
+- docker
+script:
+- docker build -t darkxahtep/sampleapp:$TRAVIS_BUILD_NUMBER .
+after_success:
+- if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push darkxahtep/docker-itshare-sampleapp;
+    fi</code></pre></section></section><section><section><h3>Hosting</h3><p><img class="fragment fade-in" src="img/microsoft-azure.png" style="float: left; height: 25vh; background:white"><img class="fragment fade-in" src="img/msdn-logo.png" style="height: 25vh"></p></section><section><h3>Main Problem</h3><p class="fragment fade-right">There is a 50$ Limit per month</p><p class="fragment fade-in"><img src="img/money.gif"></p></section><section><h3>Single VM to run it all</h3><ul><li class="fragment fade-right">Cheapest region (e.g. EastUS2)</li><li class="fragment fade-right">B2s tier with SSD (2 vCPU, 4GB RAM)</li><li class="fragment fade-right">Core OS Linux (Docker preinstalled)</li><li class="fragment fade-right">~41$ per month</li></ul></section><section><h3>Time to deploy containers to cloud</h3><p><img src="img/containers_to_cloud.jpeg"></p></section></section><section><h3>Free Domain and HTTPS</h3><ul><li>*.pp.ua through https://nic.ua</li><li>*.tk and *.ml through https://dot.tk</li><li>Let's Encrypt https://letsencrypt.org/</li></ul></section><section><h3>What else?</h3><p><img class="fragment fade-in" src="img/elk.webp" style="background:white"></p></section><section><h3>Demo</h3><p><img src="img/demo_simpsons.gif"></p></section><section><h3>Things to try next</h3><ul><li>Notifications to Telegram using ElastAlert</li><li>Kubernetes</li><li>Splunk instead of ELK</li><li>2-3 smaller VMs and load balancing</li><li>Raspberry PI cluster</li></ul></section><section><h3>Questions?</h3><p> <img src="img/question.gif"></p></section></div></div><script src="lib/js/head.min.js"></script><script src="js/reveal.js"></script><script src="js/main.js"></script></body></html>
